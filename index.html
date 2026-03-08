@@ -649,6 +649,36 @@ tr:hover td{background:var(--surface2)}
 .exp-item:hover{background:var(--surface2)}
 /* ── Backup Cards ── */
 .backup-section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;padding:4px 0 10px}
+/* ── Backup Panel v2 ── */
+.bk-body{padding-bottom:48px}
+.bk-status-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:20px}
+.bk-status-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.bk-status-dot{width:10px;height:10px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.bk-status-dot.ok{background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.5)}
+.bk-status-dot.warn{background:#f59e0b}
+.bk-status-title{font-weight:700;font-size:13px;color:var(--text)}
+.bk-status-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.bk-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.bk-desc{font-size:12px;color:var(--muted);margin:-4px 0 12px;line-height:1.6}
+.bk-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:8px}
+.bk-row:active{background:var(--surface2)}
+.bk-row-green{border-color:var(--green-light)}
+.bk-row-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.bk-icon-green{background:#dcfce7;color:#16a34a}
+.bk-row-body{flex:1;min-width:0}
+.bk-row-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.bk-row-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.bk-badge-new{font-size:10px;font-weight:700;background:var(--green);color:#fff;padding:2px 7px;border-radius:6px}
+.bk-chevron{font-size:20px;color:var(--muted)}
+.bk-platform-row{display:flex;gap:6px;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:12px}
+.bk-plt{flex:1;padding:8px 4px;border:none;background:transparent;border-radius:9px;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .18s;white-space:nowrap}
+.bk-plt.active{background:var(--surface);color:var(--text);box-shadow:0 1px 5px rgba(0,0,0,.12)}
+.bk-steps-block{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:7px;margin-bottom:2px}
+.bk-step{font-size:12.5px;color:var(--text2);line-height:1.5}
+.bk-step-tip{font-size:12px;color:var(--green);font-weight:600;padding-top:4px;border-top:1px dashed var(--border)}
+.bk-folder-connected-card{background:var(--surface2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--green-light)}
+.bk-folder-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.bk-last-saved-row{font-size:11px;color:var(--muted);text-align:center;margin-top:6px;min-height:16px}
 .backup-dev-tab{flex:1;padding:8px 4px;border:none;background:transparent;border-radius:9px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;transition:all 0.18s;white-space:nowrap}
 .backup-dev-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.12)}
 .backup-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
@@ -1094,6 +1124,7 @@ tr:hover td{background:var(--surface2)}
 .lock-dot.dark.filled{background:var(--green);border-color:var(--green)}
 .lock-dot.shake{animation:dotShake 0.4s ease}
 @keyframes dotShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes lockShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-6px)}60%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
 .lock-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:260px}
 .lock-key{height:64px;border-radius:16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:22px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transition:all 0.1s;font-family:inherit;backdrop-filter:blur(4px)}
 .lock-key:active{background:rgba(255,255,255,0.25);transform:scale(0.94)}
@@ -2149,9 +2180,12 @@ body[data-view="mobile"]
 .st-group-body{overflow:hidden;transition:max-height .28s cubic-bezier(0.4,0,0.2,1),opacity .22s;max-height:0;opacity:0}
 .st-group-body.open{max-height:800px;opacity:1}
 .st-list-group{border:1.5px solid var(--border);border-radius:16px;margin:0 16px 4px;overflow:hidden;background:var(--surface)}
+
 </style>
 </head>
 <body style="">
+  <button onclick="openSettingsPanel('backup')" style="border:none;background:none;font-size:11px;color:var(--green);cursor:pointer;font-family:inherit;font-weight:600">Manage →</button>
+</div>
 <div class="app">
 
 <!-- MOBILE TOP HEADER -->
@@ -3271,7 +3305,7 @@ body[data-view="mobile"]
   <div class="st-profile-hero" onclick="openSettingsPanel('profile')" style="margin-top:6px">
     <div class="st-avatar" id="st-avatar">&#2970;</div>
     <div class="st-profile-info">
-      <div class="st-profile-name" id="st-profile-name">&#2970;&#3015;&#2994;&#3021;&#2997;&#2990;&#3021;</div>
+      <div class="st-profile-name" id="st-profile-name">செல்வம்</div>
       <div class="st-profile-email" id="st-profile-email">Tap to edit profile &amp; income</div>
     </div>
     <div style="display:flex;align-items:center;gap:6px">
@@ -3537,7 +3571,7 @@ body[data-view="mobile"]
 
     <!-- FOOTER -->
     <div style="text-align:center;padding:20px 16px 4px;color:var(--muted2);font-size:12px">
-      <div style="font-weight:700;color:var(--muted);font-size:13px;margin-bottom:2px">Selvam &#8212; &#2970;&#3015;&#2994;&#3021;&#2997;&#2990;&#3021;</div>
+      <div style="font-weight:700;color:var(--muted);font-size:13px;margin-bottom:2px">Selvam &#8212; செல்வம்</div>
       <div>Version 2.0 &#183; Private &amp; Offline &#183; No account needed</div>
     </div>
 
@@ -3711,212 +3745,137 @@ body[data-view="mobile"]
 
 <!-- ══════════════════════════════════════
      BACKUP PANEL
-     ══════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="st-panel" id="stpanel-backup">
   <div class="st-panel-hdr">
     <button class="st-back-btn" onclick="closeSettingsPanel()">‹</button>
     <span>Backup &amp; Data</span>
   </div>
-  <div class="st-panel-body">
+  <div class="st-panel-body bk-body">
 
-    <!-- ── DEVICE TABS ── -->
-    <div style="display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:18px">
-      <button class="backup-dev-tab active" id="bdtab-ios" onclick="switchBackupTab(&#39;ios&#39;)">🍎 iPhone</button>
-      <button class="backup-dev-tab" id="bdtab-android" onclick="switchBackupTab(&#39;android&#39;)">🤖 Android</button>
-      <button class="backup-dev-tab" id="bdtab-windows" onclick="switchBackupTab(&#39;windows&#39;)">🖥 Windows</button>
+    <!-- ① STATUS BANNER -->
+    <div class="bk-status-banner" id="bk-status-banner">
+      <div class="bk-status-left">
+        <span class="bk-status-dot" id="bk-status-dot"></span>
+        <div>
+          <div class="bk-status-title" id="bk-status-title">No backup yet</div>
+          <div class="bk-status-sub"   id="bk-status-sub">Save your data so you don't lose it</div>
+        </div>
+      </div>
+      <button class="btn btn-green btn-sm" onclick="bkQuickSave()" style="flex-shrink:0">Save Now</button>
     </div>
 
-    <!-- ── iPHONE / iPAD ── -->
-    <div id="backup-tab-ios">
-      <div style="background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.04));border:1.5px solid var(--green-light);border-radius:16px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <span style="font-size:30px">🍎</span>
-          <div>
-            <div style="font-weight:800;font-size:14px;color:var(--text)">iPhone / iPad Backup</div>
-            <div style="font-size:11px;color:var(--muted)" id="ios-last-save">Tap below to save</div>
-          </div>
-        </div>
-        <div style="background:var(--surface);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.8">
-          <div style="font-weight:700;color:var(--text);margin-bottom:5px">How it works:</div>
-          <div>1️⃣ Tap <strong>Save Backup</strong></div>
-          <div>2️⃣ iOS shows a share sheet — tap <strong>Save to Files</strong></div>
-          <div>3️⃣ Choose <strong>iCloud Drive → Selvam</strong> folder</div>
-          <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);color:var(--green);font-weight:600">✓ iCloud Drive syncs to all your Apple devices automatically</div>
-        </div>
-        <button class="btn btn-green" style="width:100%;padding:13px;font-size:14px;font-weight:700;border-radius:12px" onclick="mobileExportBackup(&#39;ios&#39;)">
-          ⬇️ Save Backup Now
-        </button>
+    <!-- ② SYNC BETWEEN DEVICES -->
+    <div class="bk-label">Sync between devices</div>
+    <div class="bk-row bk-row-green" onclick="openQRSync()">
+      <div class="bk-row-icon bk-icon-green">⬡</div>
+      <div class="bk-row-body">
+        <div class="bk-row-title">QR Code Sync <span class="bk-badge-new">Recommended</span></div>
+        <div class="bk-row-sub">No internet · Show QR here, scan on other device</div>
       </div>
-      <div style="background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px">📂 Restore from File</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Pick your <code>selvam-backup.json</code> from Files app or iCloud Drive.</div>
-        <button class="btn btn-outline" style="width:100%;padding:11px;border-radius:12px" onclick="triggerImport()">
-          📁 Choose Backup File
-        </button>
-      </div>
-      <div style="background:#fefce8;border:1px solid #fef08a;border-radius:12px;padding:12px 14px;font-size:12px;color:#713f12;line-height:1.7">
-        💡 <strong>Tip:</strong> Save weekly to <strong>iCloud Drive → Selvam</strong>. It auto-syncs across your iPhone, iPad and Mac.
-      </div>
+      <span class="bk-chevron">›</span>
     </div>
 
-    <!-- ── ANDROID ── -->
-    <div id="backup-tab-android" style="display:none">
-      <div style="background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.04));border:1.5px solid var(--green-light);border-radius:16px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <span style="font-size:30px">🤖</span>
-          <div>
-            <div style="font-weight:800;font-size:14px;color:var(--text)">Android Backup</div>
-            <div style="font-size:11px;color:var(--muted)" id="android-last-save">Tap below to save</div>
-          </div>
-        </div>
-        <div style="background:var(--surface);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.8">
-          <div style="font-weight:700;color:var(--text);margin-bottom:5px">How it works:</div>
-          <div>1️⃣ Tap <strong>Save Backup</strong></div>
-          <div>2️⃣ File saves to your <strong>Downloads</strong> folder</div>
-          <div>3️⃣ Move it to <strong>Google Drive</strong> for cloud safety</div>
-          <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);color:var(--green);font-weight:600">✓ Google Drive keeps it safe if you change phones</div>
-        </div>
-        <button class="btn btn-green" style="width:100%;padding:13px;font-size:14px;font-weight:700;border-radius:12px" onclick="mobileExportBackup(&#39;android&#39;)">
-          ⬇️ Save Backup Now
-        </button>
-      </div>
-      <!-- Android folder backup via Chrome (File System Access API works on Android Chrome) -->
-      <div style="background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:12px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <div style="font-weight:700;font-size:13px;color:var(--text)">📁 Auto-save to Folder</div>
-          <span style="font-size:10px;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:6px">Chrome only</span>
-        </div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6">Pick a folder once — Selvam saves automatically every 30 min. Works in Chrome for Android.</div>
-        <div id="android-folder-status" style="margin-bottom:8px"></div>
-        <button class="btn btn-outline" style="width:100%;padding:11px;border-radius:12px" onclick="localPickFolder()">
-          📂 Choose Folder (Chrome)
-        </button>
-      </div>
-      <div style="background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px">📂 Restore from File</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Pick your <code>selvam-backup.json</code> from Downloads or Google Drive.</div>
-        <button class="btn btn-outline" style="width:100%;padding:11px;border-radius:12px" onclick="triggerImport()">
-          📁 Choose Backup File
-        </button>
-      </div>
-      <div style="background:#fefce8;border:1px solid #fef08a;border-radius:12px;padding:12px 14px;font-size:12px;color:#713f12;line-height:1.7">
-        💡 <strong>Tip:</strong> Save weekly and upload to <strong>Google Drive</strong>. You can restore from any Android device or browser.
-      </div>
+    <!-- ③ SAVE A BACKUP -->
+    <div class="bk-label" style="margin-top:20px">Save a backup file</div>
+    <p class="bk-desc">Download your data as a file. Store it on iCloud, Google Drive, USB — anywhere you like.</p>
+
+    <!-- Platform picker -->
+    <div class="bk-platform-row" id="bk-platform-row">
+      <button class="bk-plt active" id="bkplt-ios"     onclick="switchBkPlatform('ios')">🍎 iPhone</button>
+      <button class="bk-plt"        id="bkplt-android" onclick="switchBkPlatform('android')">🤖 Android</button>
+      <button class="bk-plt"        id="bkplt-windows" onclick="switchBkPlatform('windows')">🖥 Windows/Mac</button>
     </div>
 
-    <!-- ── WINDOWS / MAC ── -->
-    <div id="backup-tab-windows" style="display:none">
-      <div style="background:linear-gradient(135deg,rgba(22,163,74,0.1),rgba(22,163,74,0.04));border:1.5px solid var(--green-light);border-radius:16px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-          <span style="font-size:30px">🖥</span>
+    <!-- iPhone steps -->
+    <div class="bk-steps-block" id="bkplt-ios-content">
+      <div class="bk-step">① Tap <strong>Save Backup</strong></div>
+      <div class="bk-step">② Share sheet appears → tap <strong>Save to Files</strong></div>
+      <div class="bk-step">③ Choose <strong>iCloud Drive → Selvam</strong></div>
+      <div class="bk-step bk-step-tip">✓ iCloud syncs to all your Apple devices automatically</div>
+    </div>
+
+    <!-- Android steps -->
+    <div class="bk-steps-block" id="bkplt-android-content" style="display:none">
+      <div class="bk-step">① Tap <strong>Save Backup</strong></div>
+      <div class="bk-step">② File saves to <strong>Downloads</strong> folder</div>
+      <div class="bk-step">③ Upload to <strong>Google Drive</strong> for safekeeping</div>
+      <div class="bk-step bk-step-tip">✓ Keeps your data safe when you change phones</div>
+    </div>
+
+    <!-- Windows steps -->
+    <div class="bk-steps-block" id="bkplt-windows-content" style="display:none">
+      <div class="bk-step">① Tap <strong>Save Backup</strong> for a one-time download</div>
+      <div class="bk-step">② Or pick a <strong>folder</strong> for automatic saves every 30 min</div>
+      <div class="bk-step">③ Use a folder inside <strong>OneDrive / Dropbox</strong> for cloud sync</div>
+      <div class="bk-step bk-step-tip">✓ Auto-folder works in Chrome &amp; Edge</div>
+
+      <!-- Auto-folder connected state -->
+      <div id="win-folder-connected" style="display:none;margin-top:10px">
+        <div class="bk-folder-connected-card">
           <div>
-            <div style="font-weight:800;font-size:14px;color:var(--text)">Windows / Mac Auto-Backup</div>
-            <div style="font-size:11px;color:var(--muted)" id="win-folder-lbl">No folder selected</div>
+            <div style="font-size:12px;font-weight:700;color:var(--green)">✅ Auto-backup active</div>
+            <div class="bk-folder-meta" id="win-folder-name"></div>
+            <div class="bk-folder-meta" id="win-last-sync-lbl"></div>
           </div>
+          <button class="btn btn-outline btn-sm" style="color:var(--red);border-color:#fca5a5;font-size:11px" onclick="localClearFolder()">Remove</button>
         </div>
-        <div style="background:var(--surface);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.8">
-          <div style="font-weight:700;color:var(--text);margin-bottom:5px">How it works:</div>
-          <div>1️⃣ Click <strong>Choose Backup Folder</strong> once</div>
-          <div>2️⃣ Selvam saves <code>selvam-backup.json</code> there automatically</div>
-          <div>3️⃣ Pick a folder inside <strong>OneDrive / iCloud / Dropbox</strong> for cloud sync</div>
-          <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);color:var(--green);font-weight:600">✓ 100% offline — no account needed. Works in Chrome &amp; Edge.</div>
-        </div>
-        <div id="win-folder-connected" style="display:none;margin-bottom:10px">
-          <div style="background:var(--surface);border-radius:10px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:var(--green)">✅ Connected</div>
-              <div style="font-size:11px;color:var(--muted)" id="win-folder-name">📁 </div>
-              <div style="font-size:11px;color:var(--muted)" id="win-last-sync-lbl">No backups yet</div>
-            </div>
-            <button class="btn btn-outline btn-sm" style="color:var(--red);border-color:#fca5a5;font-size:11px" onclick="localClearFolder()">Disconnect</button>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn btn-green" style="flex:1;padding:11px;font-size:13px" onclick="localSaveNow()">💾 Save Now</button>
-            <button class="btn btn-outline" style="flex:1;padding:11px;font-size:13px" onclick="localRestore()">📥 Restore</button>
-          </div>
-        </div>
-        <div id="win-folder-disconnected" style="display: block;">
-          <button class="btn btn-green" style="width:100%;padding:13px;font-size:14px;font-weight:700;border-radius:12px" onclick="localPickFolder()">
-            📂 Choose Backup Folder
-          </button>
-        </div>
-        <div id="local-api-warning" style="display:none;margin-top:10px;background:#fee2e2;border-radius:10px;padding:10px 12px;font-size:12px;color:#991b1b">
-          ⚠️ Folder backup needs Chrome or Edge. Use the manual export below instead.
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn btn-green" style="flex:1;padding:10px;font-size:13px" onclick="localSaveNow()">💾 Save Now</button>
+          <button class="btn btn-outline" style="flex:1;padding:10px;font-size:13px" onclick="localRestore()">📥 Restore</button>
         </div>
       </div>
-      <div style="background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px">📤 Manual Save &amp; Restore</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Download a backup file anytime, or restore from one.</div>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-outline" style="flex:1;padding:11px;border-radius:12px;font-size:13px" onclick="exportJSON()">⬇️ Download JSON</button>
-          <button class="btn btn-outline" style="flex:1;padding:11px;border-radius:12px;font-size:13px" onclick="triggerImport()">📁 Restore JSON</button>
-        </div>
+
+      <!-- Auto-folder disconnected state -->
+      <div id="win-folder-disconnected" style="margin-top:10px">
+        <button class="btn btn-outline" style="width:100%;padding:10px;border-radius:12px;font-size:13px" onclick="localPickFolder()">
+          📂 Set Auto-Backup Folder <span style="font-size:10px;opacity:.7">(Chrome / Edge)</span>
+        </button>
       </div>
-      <!-- Sync log -->
-      <div id="win-sync-log-wrap" style="display:none">
-        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Sync History</div>
+
+      <div id="local-api-warning" style="display:none;background:#fee2e2;border-radius:10px;padding:10px 12px;font-size:12px;color:#991b1b;margin-top:8px">
+        ⚠️ Auto-folder needs Chrome or Edge on desktop.
+      </div>
+
+      <div id="win-sync-log-wrap" style="display:none;margin-top:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Auto-save log</div>
         <div class="drive-sync-log" id="win-log-inner"></div>
       </div>
     </div>
 
-    <div style="height:1px;background:var(--border);margin:20px 0"></div>
-
-    <!-- ── GITHUB GIST (CLOUD) ── -->
-    <div class="backup-section-title">☁️ Cloud Backup <span style="font-size:11px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0">(optional)</span></div>
-    <p class="settings-desc" style="margin:-4px 0 14px;font-size:12.5px">Sync to a private GitHub Gist — access from any device.</p>
-    <div id="gist-connected-view" style="display:none">
-      <div style="background:var(--surface2);border-radius:12px;padding:14px;margin-bottom:12px">
-        <div class="backup-user-row" id="gist-user-row" style="margin-bottom:8px"></div>
-        <div class="backup-last-sync" id="gist-last-sync"></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
-        <button class="btn btn-green" onclick="gistSaveNow()">🔄 Save to Gist Now</button>
-        <button class="btn btn-outline" onclick="gistRestore()">📥 Restore from Gist</button>
-        <button class="btn btn-outline btn-sm" style="color:var(--red);border-color:#fca5a5" onclick="gistDisconnect()">Disconnect</button>
-      </div>
-      <div id="gist-log-wrap" style="display:none">
-        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Sync History</div>
-        <div class="drive-sync-log" id="gist-log"></div>
-      </div>
+    <!-- Save / Restore buttons -->
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-green"   style="flex:1;padding:13px;font-size:14px;font-weight:700;border-radius:12px" onclick="bkSavePlatform()" id="bk-save-btn">⬇ Save Backup</button>
+      <button class="btn btn-outline" style="flex:1;padding:13px;font-size:14px;border-radius:12px" onclick="triggerImport()">📁 Restore</button>
     </div>
-    <div id="gist-setup-view">
-      <div style="background:var(--surface2);border-radius:12px;padding:14px;margin-bottom:12px">
-        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px">Get a free GitHub token in 60 seconds:</div>
-        <ol style="font-size:12px;color:var(--text2);padding-left:16px;display:flex;flex-direction:column;gap:5px;line-height:1.6">
-          <li>Go to <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--green)">github.com/settings/tokens/new</a></li>
-          <li>Give it a name like <em>Selvam Backup</em></li>
-          <li>Check the <strong>gist</strong> scope only</li>
-          <li>Click <strong>Generate token</strong> and copy it</li>
-        </ol>
-      </div>
-      <div style="display:flex;gap:8px">
-        <input class="form-inp" id="gist-token-inp" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="flex:1;font-family:monospace;font-size:12px">
-        <button class="btn btn-green" onclick="gistConnect()">Connect →</button>
-      </div>
-    </div>
+    <div class="bk-last-saved-row" id="bk-last-saved"></div>
 
-    <div style="height:1px;background:var(--border);margin:20px 0"></div>
-
-    <!-- ── EXPORT / IMPORT ── -->
-    <div class="backup-section-title">📤 Export &amp; Import</div>
-    <p class="settings-desc" style="margin:-4px 0 14px;font-size:12.5px">Manually download or restore your data.</p>
-    <div class="st-list-group" style="margin-top:0;border-radius:12px;overflow:hidden">
+    <!-- ④ EXPORT & MANAGE -->
+    <div class="bk-label" style="margin-top:24px">Export &amp; manage data</div>
+    <div class="st-list-group" style="border-radius:14px;overflow:hidden">
       <div class="st-row" onclick="exportJSON()">
-        <div class="st-row-icon" style="background:#0891b2;font-size:15px">⬇</div>
-        <div class="st-row-body"><div class="st-row-label">Export as JSON</div><div class="st-row-sub">Full backup — all your data</div></div>
+        <div class="st-row-icon" style="background:#0891b2">⬇</div>
+        <div class="st-row-body"><div class="st-row-label">Download JSON Backup</div><div class="st-row-sub">Full data — assets, expenses, goals</div></div>
       </div>
       <div class="st-row" onclick="exportText()">
-        <div class="st-row-icon" style="background:#7c3aed;font-size:15px">📄</div>
-        <div class="st-row-body"><div class="st-row-label">Export Summary Report</div><div class="st-row-sub">Readable text format</div></div>
+        <div class="st-row-icon" style="background:#7c3aed">📄</div>
+        <div class="st-row-body"><div class="st-row-label">Export Summary Report</div><div class="st-row-sub">Human-readable text format</div></div>
       </div>
       <div class="st-row" onclick="triggerImport()">
-        <div class="st-row-icon" style="background:#16a34a;font-size:15px">⬆</div>
-        <div class="st-row-body"><div class="st-row-label">Import from JSON</div><div class="st-row-sub">Restore from a backup file</div></div>
+        <div class="st-row-icon" style="background:#16a34a">⬆</div>
+        <div class="st-row-body"><div class="st-row-label">Import from JSON</div><div class="st-row-sub">Restore from any backup file</div></div>
       </div>
       <div class="st-row" onclick="clearAll()">
-        <div class="st-row-icon" style="background:#dc2626;font-size:15px">🗑</div>
-        <div class="st-row-body"><div class="st-row-label" style="color:var(--red)">Clear All Data</div><div class="st-row-sub">Cannot be undone</div></div>
+        <div class="st-row-icon" style="background:#dc2626">🗑</div>
+        <div class="st-row-body"><div class="st-row-label" style="color:var(--red)">Clear All Data</div><div class="st-row-sub">Permanently deletes everything</div></div>
       </div>
+    </div>
+
+    <!-- Hidden compat IDs for old JS -->
+    <div style="display:none">
+      <div id="backup-tab-ios"></div><div id="backup-tab-android"></div><div id="backup-tab-windows"></div>
+      <span id="ios-last-save"></span><span id="android-last-save"></span>
+      <span id="win-folder-lbl"></span><span id="android-folder-status"></span>
     </div>
 
   </div>
@@ -5920,6 +5879,7 @@ function openSettingsPanel(name){
   if(name==='notif-manage') renderSpNotifManage();
   if(name==='notif-upcoming') renderSpNotifUpcoming();
   if(name==='notif-history') renderSpNotifHistory();
+  if(name==='lock') setTimeout(renderLockSettings, 30);
   closeSettingsPanel(false);
   const panel=document.getElementById('stpanel-'+name);
   const overlay=document.getElementById('st-panel-overlay');
@@ -5928,7 +5888,7 @@ function openSettingsPanel(name){
   overlay.classList.add('open');
   requestAnimationFrame(()=>{ panel.classList.add('open'); });
   document.body.style.overflow='hidden';
-  if(name === 'backup'){ setTimeout(applyBackupPanelForDevice, 30); }
+  if(name === 'backup'){ setTimeout(()=>{ applyBackupPanelForDevice(); renderBkStatusBanner(); }, 30); }
   if(name === 'install'){
     setTimeout(()=> switchInstallTab(detectInstallPlatform()), 50);
   }
@@ -6304,9 +6264,9 @@ function renderProfilePanel(){
 }
 
 function renderBackupPanel(){
-  updateGistUI();
   updateLocalUI();
   updateBackupSettingsDot();
+  renderBkStatusBanner();
 }
 
 function updateBackupSettingsDot(){
@@ -6314,13 +6274,9 @@ function updateBackupSettingsDot(){
   const sub = document.getElementById('str-backup-sub');
   if(!dot) return;
   const localOn = !!LOCAL.folderName;
-  const gistOn  = !!GIST.token;
-  dot.classList.toggle('connected', localOn || gistOn);
-  if(sub){
-    if(localOn) sub.textContent = '💾 '+LOCAL.folderName+(LOCAL.lastSync?' · '+LOCAL.lastSync:'');
-    else if(gistOn) sub.textContent = '☁️ GitHub Gist connected';
-    else sub.textContent = 'Local folder & export options';
-  }
+  
+  dot.classList.toggle('connected', localOn);
+  if(sub){ if(localOn) sub.textContent = '💾 '+LOCAL.folderName+(LOCAL.lastSync?' · '+LOCAL.lastSync:''); else sub.textContent = 'QR Sync · Export options'; }
 }
 
 function renderSettingsHero(){
@@ -8885,156 +8841,6 @@ function toggleBackupCard(name){
   if(chevron) chevron.classList.toggle('open', !open);
 }
 
-// ── GITHUB GIST BACKUP ──
-const GIST = {
-  token: localStorage.getItem('selvam_gist_token') || '',
-  gistId: localStorage.getItem('selvam_gist_id') || '',
-  user: JSON.parse(localStorage.getItem('selvam_gist_user') || 'null'),
-  lastSync: localStorage.getItem('selvam_gist_last_sync') || '',
-  log: JSON.parse(localStorage.getItem('selvam_gist_log') || '[]'),
-};
-
-function addGistLog(msg){
-  const entry = {time: new Date().toLocaleTimeString('en-IN'), msg};
-  GIST.log.unshift(entry);
-  if(GIST.log.length > 20) GIST.log = GIST.log.slice(0,20);
-  localStorage.setItem('selvam_gist_log', JSON.stringify(GIST.log));
-  updateGistUI();
-}
-
-function updateGistUI(){
-  const connected = !!GIST.token;
-  const connView = document.getElementById('gist-connected-view');
-  const setupView = document.getElementById('gist-setup-view');
-  const userRow = document.getElementById('gist-user-row');
-  const lastSync = document.getElementById('gist-last-sync');
-  const logWrap = document.getElementById('gist-log-wrap');
-  const logEl = document.getElementById('gist-log');
-  if(!connView) return; // panel not open yet
-
-  if(connected){
-    if(connView) connView.style.display = 'block';
-    if(setupView) setupView.style.display = 'none';
-    if(userRow && GIST.user){
-      userRow.innerHTML = `
-        <div class="backup-user-avatar">${(GIST.user.login||'G')[0].toUpperCase()}</div>
-        <div>
-          <div class="backup-user-name">@${GIST.user.login||'GitHub User'}</div>
-          <div class="backup-user-handle">${GIST.user.name||''}</div>
-        </div>`;
-    }
-    if(lastSync) lastSync.textContent = GIST.lastSync ? '✅ Last backup: '+GIST.lastSync : '';
-    if(logWrap && GIST.log.length > 0){
-      logWrap.style.display = 'block';
-      if(logEl) logEl.innerHTML = GIST.log.map(e=>`<div class="drive-sync-entry">${e.time} — ${e.msg}</div>`).join('');
-    }
-  } else {
-    if(connView) connView.style.display = 'none';
-    if(setupView) setupView.style.display = 'block';
-  }
-  updateBackupSettingsDot();
-}
-
-async function gistConnect(){
-  const inp = document.getElementById('gist-token-inp');
-  const token = inp ? inp.value.trim() : '';
-  if(!token){ showToast('Paste your GitHub token first','error'); return; }
-  showToast('Verifying token…','success');
-  try{
-    const res = await fetch('https://api.github.com/user', {
-      headers: { Authorization: 'token '+token, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if(!res.ok) throw new Error('Invalid token — check it and try again');
-    const user = await res.json();
-    GIST.token = token;
-    GIST.user = {login: user.login, name: user.name};
-    localStorage.setItem('selvam_gist_token', token);
-    localStorage.setItem('selvam_gist_user', JSON.stringify(GIST.user));
-    addGistLog('Connected as @'+user.login);
-    showToast('GitHub connected! 🎉 Saving backup…','success');
-    updateGistUI();
-    await gistSaveNow();
-  } catch(e){
-    showToast('Error: '+e.message,'error');
-  }
-}
-
-async function gistSaveNow(){
-  if(!GIST.token){ showToast('Connect GitHub first','error'); return; }
-  showToast('Saving backup to GitHub…','success');
-  try{
-    const payload = JSON.stringify({exported: new Date().toISOString(), version:'selvam_v1', ...S}, null, 2);
-    const body = {
-      description: 'Selvam Wealth Tracker — Backup',
-      public: false,
-      files: { 'selvam-backup.json': { content: payload } }
-    };
-    let res, data;
-    if(GIST.gistId){
-      res = await fetch('https://api.github.com/gists/'+GIST.gistId, {
-        method: 'PATCH',
-        headers: {Authorization:'token '+GIST.token, 'Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
-    } else {
-      res = await fetch('https://api.github.com/gists', {
-        method: 'POST',
-        headers: {Authorization:'token '+GIST.token, 'Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
-    }
-    if(!res.ok){
-      const err = await res.json();
-      throw new Error(err.message || 'Save failed');
-    }
-    data = await res.json();
-    GIST.gistId = data.id;
-    localStorage.setItem('selvam_gist_id', data.id);
-    GIST.lastSync = new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-    localStorage.setItem('selvam_gist_last_sync', GIST.lastSync);
-    addGistLog('Saved — '+S.assets.length+' assets');
-    showToast('Backup saved to GitHub ✓','success');
-    updateGistUI();
-  } catch(e){
-    showToast('Save failed: '+e.message,'error');
-    addGistLog('Save failed: '+e.message);
-  }
-}
-
-async function gistRestore(){
-  if(!GIST.token){ showToast('Connect GitHub first','error'); return; }
-  if(!GIST.gistId){ showToast('No backup found — save one first','error'); return; }
-  if(!confirm('Restore from GitHub backup? Your current local data will be replaced.')) return;
-  showToast('Restoring from GitHub…','success');
-  try{
-    const res = await fetch('https://api.github.com/gists/'+GIST.gistId, {
-      headers: {Authorization:'token '+GIST.token}
-    });
-    if(!res.ok) throw new Error('Could not fetch backup');
-    const gist = await res.json();
-    const fileContent = gist.files['selvam-backup.json']?.content;
-    if(!fileContent) throw new Error('Backup file not found in Gist');
-    const d = JSON.parse(fileContent);
-    ['assets','incomes','fixedExps','dailyExps','goals','snapshots','currencies','profile','subscriptions','creditCards','rent','rentPayments'].forEach(k=>{if(d[k])S[k]=d[k];});
-    save();
-    renderDashboard();
-    addGistLog('Restored from GitHub');
-    showToast('Restored from GitHub ✓','success');
-  } catch(e){
-    showToast('Restore failed: '+e.message,'error');
-  }
-}
-
-function gistDisconnect(){
-  if(!confirm('Disconnect GitHub? Your backups stay safe on GitHub.')) return;
-  GIST.token=''; GIST.user=null;
-  localStorage.removeItem('selvam_gist_token');
-  localStorage.removeItem('selvam_gist_user');
-  addGistLog('Disconnected from GitHub');
-  updateGistUI();
-  showToast('GitHub disconnected','success');
-}
-
 // ── NET WORTH OVER TIME CHART ──
 function renderNWChart(svgId, emptyId, height){
   const svg = document.getElementById(svgId);
@@ -10038,12 +9844,277 @@ function checkAppLock(){
   if(lockScreen) lockScreen.classList.add('active');
 }
 
+// ═══════════════════════════════════════════════════════════
+// LOCK & PRIVACY — full implementation
+// ═══════════════════════════════════════════════════════════
+
+let _lockPin    = '';  // current pin entry on lock screen
+let _setupPin   = '';  // pin being set in setup modal
+let _setupStep  = 'enter';  // 'enter' | 'confirm'
+let _setupFirst = '';  // first entry, waiting for confirm
+let _setupMode  = 'set';  // 'set' | 'change'
+
+// ── Settings panel render ──
 function renderLockSettings(){
-  // Lock settings are rendered inline in renderSettings - this is a safe no-op stub
   const lockOn = isLockEnabled();
-  const toggle = document.getElementById('lock-app-toggle');
-  if(toggle) toggle.classList.toggle('on', lockOn);
+  const toggle   = document.getElementById('lock-app-toggle');
+  const changeRow= document.getElementById('lock-change-row');
+  if(toggle)    toggle.classList.toggle('on', lockOn);
+  if(changeRow) changeRow.style.display = lockOn ? 'flex' : 'none';
+  renderHiddenPagesList();
 }
+
+// ── Toggle app lock on/off ──
+function toggleAppLock(){
+  if(isLockEnabled()){
+    // Turning off — verify first
+    openSetPasscode('verify-to-disable');
+  } else {
+    // Turning on — set new PIN
+    openSetPasscode('set');
+  }
+}
+
+// ── Open passcode modal ──
+function openSetPasscode(mode){
+  _setupMode = mode;
+  _setupPin  = '';
+  _setupFirst = '';
+  _setupStep = 'enter';
+  const titleEl = document.getElementById('passcode-modal-title');
+  const subEl   = document.getElementById('passcode-modal-sub');
+  if(mode === 'set'){
+    if(titleEl) titleEl.textContent = 'Set Passcode';
+    if(subEl)   subEl.textContent   = 'Enter a 4-digit PIN';
+  } else if(mode === 'change'){
+    if(titleEl) titleEl.textContent = 'Change Passcode';
+    if(subEl)   subEl.textContent   = 'Enter your current PIN first';
+  } else if(mode === 'verify-to-disable'){
+    if(titleEl) titleEl.textContent = 'Remove Passcode';
+    if(subEl)   subEl.textContent   = 'Enter your current PIN to disable';
+  }
+  setupUpdateDots();
+  const errEl = document.getElementById('setup-error');
+  if(errEl) errEl.textContent = '';
+  document.getElementById('modal-passcode').classList.add('open');
+}
+
+function setupUpdateDots(){
+  for(let i=0;i<4;i++){
+    const dot = document.getElementById('sd-'+i);
+    if(dot) dot.classList.toggle('filled', i < _setupPin.length);
+  }
+}
+
+function setupKeyPress(d){
+  if(_setupPin.length >= 4) return;
+  _setupPin += d;
+  setupUpdateDots();
+  if(_setupPin.length === 4) setTimeout(setupPinComplete, 150);
+}
+
+function setupKeyDel(){
+  _setupPin = _setupPin.slice(0,-1);
+  setupUpdateDots();
+}
+
+function setupPinComplete(){
+  const errEl  = document.getElementById('setup-error');
+  const subEl  = document.getElementById('passcode-modal-sub');
+  const titleEl= document.getElementById('passcode-modal-title');
+
+  if(_setupMode === 'verify-to-disable'){
+    // Just verify and disable
+    if(_setupPin === getLockPasscode()){
+      localStorage.removeItem('selvam_passcode');
+      closeModal('modal-passcode');
+      renderLockSettings();
+      showToast('App lock removed','success');
+    } else {
+      if(errEl) errEl.textContent = 'Incorrect PIN. Try again.';
+      _setupPin = ''; setupUpdateDots();
+    }
+    return;
+  }
+
+  if(_setupMode === 'change' && _setupStep === 'enter'){
+    // Verify current PIN
+    if(_setupPin !== getLockPasscode()){
+      if(errEl) errEl.textContent = 'Incorrect current PIN.';
+      _setupPin = ''; setupUpdateDots();
+      return;
+    }
+    // Correct — now enter new
+    _setupStep = 'new';
+    _setupPin  = '';
+    setupUpdateDots();
+    if(titleEl) titleEl.textContent = 'New Passcode';
+    if(subEl)   subEl.textContent   = 'Enter your new 4-digit PIN';
+    if(errEl)   errEl.textContent   = '';
+    return;
+  }
+
+  // 'set' mode or 'change' after verification — two-step confirm
+  if(_setupStep === 'enter' || _setupStep === 'new'){
+    _setupFirst = _setupPin;
+    _setupStep  = 'confirm';
+    _setupPin   = '';
+    setupUpdateDots();
+    if(subEl) subEl.textContent = 'Confirm your PIN';
+    if(errEl) errEl.textContent = '';
+    return;
+  }
+
+  if(_setupStep === 'confirm'){
+    if(_setupPin !== _setupFirst){
+      if(errEl) errEl.textContent = 'PINs don\'t match. Start again.';
+      _setupStep  = (_setupMode === 'change') ? 'new' : 'enter';
+      _setupFirst = '';
+      _setupPin   = '';
+      setupUpdateDots();
+      if(subEl) subEl.textContent = _setupMode === 'change' ? 'Enter your new 4-digit PIN' : 'Enter a 4-digit PIN';
+      return;
+    }
+    // Save
+    localStorage.setItem('selvam_passcode', _setupPin);
+    closeModal('modal-passcode');
+    renderLockSettings();
+    showToast(_setupMode === 'change' ? 'Passcode updated ✓' : 'App lock enabled ✓', 'success');
+  }
+}
+
+// ── Lock screen keypad ──
+function lockKeyPress(d){
+  if(_lockPin.length >= 4) return;
+  _lockPin += d;
+  lockUpdateDots();
+  if(_lockPin.length === 4) setTimeout(lockPinSubmit, 150);
+}
+
+function lockKeyDel(){
+  _lockPin = _lockPin.slice(0,-1);
+  lockUpdateDots();
+}
+
+function lockUpdateDots(){
+  for(let i=0;i<4;i++){
+    const dot = document.getElementById('ld-'+i);
+    if(dot) dot.classList.toggle('filled', i < _lockPin.length);
+  }
+}
+
+function lockPinSubmit(){
+  if(_lockPin === getLockPasscode()){
+    // Correct — dismiss lock screen
+    const ls = document.getElementById('lock-screen');
+    if(ls){ ls.style.opacity='0'; ls.style.transition='opacity 0.3s'; setTimeout(()=>{ ls.classList.remove('active'); ls.style.opacity=''; ls.style.transition=''; }, 300); }
+    _lockPin = '';
+    lockUpdateDots();
+    // Check if we were trying to access a hidden page
+    if(_pendingHiddenPage){
+      const page = _pendingHiddenPage;
+      _pendingHiddenPage = null;
+      nav(page);
+    }
+  } else {
+    // Wrong PIN
+    const errEl = document.getElementById('lock-error');
+    const dots  = document.getElementById('lock-dots');
+    if(errEl){ errEl.textContent = 'Incorrect passcode'; errEl.style.opacity = '1'; setTimeout(()=>{ errEl.style.opacity='0'; }, 1500); }
+    if(dots){ dots.style.animation='none'; dots.offsetHeight; dots.style.animation='lockShake 0.4s ease'; }
+    _lockPin = '';
+    lockUpdateDots();
+  }
+}
+
+function lockForgotPin(){
+  if(confirm('Reset your passcode?\n\nThis will clear your PIN and unlock the app. Your data will NOT be deleted.')){
+    localStorage.removeItem('selvam_passcode');
+    const ls = document.getElementById('lock-screen');
+    if(ls) ls.classList.remove('active');
+    _lockPin = '';
+    renderLockSettings();
+    showToast('Passcode removed — please set a new one in Settings','success');
+  }
+}
+
+// ── Hidden pages ──
+let _pendingHiddenPage = null;
+
+function getHiddenPagesSet(){ return new Set(getHiddenPages()); }
+
+function saveHiddenPages(arr){ localStorage.setItem('selvam_hidden_pages', JSON.stringify(arr)); }
+
+function renderHiddenPagesList(){
+  const container = document.getElementById('lock-hidden-pages-list');
+  if(!container) return;
+  const hidden = getHiddenPages();
+  if(!hidden.length){
+    container.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 0">No pages hidden yet.</div>';
+    return;
+  }
+  container.innerHTML = hidden.map(p => {
+    const cfg = (navConfig||DEFAULT_NAV).find(n=>n.id===p);
+    const label = cfg ? cfg.label : p;
+    const icon  = cfg ? cfg.icon  : '📄';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:10px;padding:9px 12px">
+      <span style="font-size:13px;color:var(--text)">${icon} ${label}</span>
+      <button onclick="removeHiddenPage('${p}')" style="border:none;background:none;color:var(--red);font-size:13px;cursor:pointer;font-weight:700;padding:2px 6px">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function removeHiddenPage(pageId){
+  const pages = getHiddenPages().filter(p=>p!==pageId);
+  saveHiddenPages(pages);
+  renderHiddenPagesList();
+  showToast('Page unhidden','success');
+}
+
+function openAddHiddenPage(){
+  if(!isLockEnabled()){
+    showToast('Enable App Lock first','error');
+    return;
+  }
+  const picker = document.getElementById('hide-page-picker');
+  if(!picker) return;
+  const hidden = new Set(getHiddenPages());
+  const nav = navConfig || DEFAULT_NAV;
+  const available = nav.filter(n => !hidden.has(n.id) && !['dashboard','settings'].includes(n.id));
+  picker.innerHTML = available.map(n =>
+    `<div onclick="addHiddenPage('${n.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--surface);border:1.5px solid var(--border);cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:18px">${n.icon}</span>
+      <span style="font-size:13px;font-weight:600;color:var(--text)">${n.label}</span>
+    </div>`
+  ).join('');
+  document.getElementById('modal-hide-page').classList.add('open');
+}
+
+function addHiddenPage(pageId){
+  const pages = getHiddenPages();
+  if(!pages.includes(pageId)) pages.push(pageId);
+  saveHiddenPages(pages);
+  closeModal('modal-hide-page');
+  renderHiddenPagesList();
+  showToast('Page hidden — requires passcode to access','success');
+}
+
+// ── Check before nav if page is hidden ──
+// Wraps the nav() function to intercept hidden pages
+const _origNav = nav;
+nav = function(page){
+  const hidden = new Set(getHiddenPages());
+  if(hidden.has(page) && isLockEnabled()){
+    // Show lock screen for this page
+    _pendingHiddenPage = page;
+    const ls = document.getElementById('lock-screen');
+    const sub = document.getElementById('lock-screen-sub');
+    if(sub) sub.textContent = 'Enter passcode to access this page';
+    if(ls){ _lockPin=''; lockUpdateDots(); ls.classList.add('active'); }
+    return;
+  }
+  _origNav(page);
+};
 
 function initCollapsibleCards(){
   // No-op - collapsible cards not used in this version
@@ -12713,36 +12784,79 @@ function isIOS(){
 // ── BACKUP DEVICE TABS ──
 let _backupTab = null;
 
+// ── Detect platform and auto-select tab ──
 function applyBackupPanelForDevice(){
-  // Auto-select tab based on detected device
   const tab = isIOS() ? 'ios' : (isMobileDevice() ? 'android' : 'windows');
-  switchBackupTab(tab);
-  updateLocalUI();
+  switchBkPlatform(tab);
   updateWinFolderUI();
-  updateBackupLastSave();
+  renderBkStatusBanner();
 }
 
-function switchBackupTab(tab){
+// ── Switch platform instructions ──
+function switchBkPlatform(tab){
   _backupTab = tab;
   ['ios','android','windows'].forEach(t => {
-    const el  = document.getElementById('backup-tab-'+t);
-    const btn = document.getElementById('bdtab-'+t);
-    if(el)  el.style.display  = (t===tab) ? 'block' : 'none';
-    if(btn) btn.classList.toggle('active', t===tab);
+    const btn  = document.getElementById('bkplt-'+t);
+    const cont = document.getElementById('bkplt-'+t+'-content');
+    if(btn)  btn.classList.toggle('active', t===tab);
+    if(cont) cont.style.display = (t===tab) ? 'flex' : 'none';
+    // flex for steps-block
+    if(cont && t===tab) cont.style.display = 'flex';
+    if(cont && t!==tab) cont.style.display = 'none';
   });
+  // Update save button label
+  const saveBtn = document.getElementById('bk-save-btn');
+  if(saveBtn){
+    if(tab==='windows' && LOCAL.folderName) saveBtn.textContent = '💾 Save Now';
+    else saveBtn.textContent = '⬇ Save Backup';
+  }
   if(tab === 'windows') updateWinFolderUI();
-  updateBackupLastSave();
+  renderBkStatusBanner();
 }
 
-function updateBackupLastSave(){
-  const key = 'selvam_mobile_last_backup';
-  const ts  = localStorage.getItem(key);
-  const str = ts ? '✅ Last backup: ' + new Date(ts).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : 'No backup yet — tap below';
-  ['ios','android'].forEach(id => {
-    const el = document.getElementById(id+'-last-save');
-    if(el) el.textContent = str;
-  });
+// Alias for old code that calls switchBackupTab
+function switchBackupTab(tab){ switchBkPlatform(tab); }
+
+// ── Status banner ──
+function renderBkStatusBanner(){
+  const dot   = document.getElementById('bk-status-dot');
+  const title = document.getElementById('bk-status-title');
+  const sub   = document.getElementById('bk-status-sub');
+  if(!dot) return;
+  const ts = localStorage.getItem('selvam_mobile_last_backup');
+  const folderOk = !!LOCAL.folderName;
+  if(folderOk){
+    dot.className   = 'bk-status-dot ok';
+    title.textContent = '✅ Auto-backup active';
+    sub.textContent = LOCAL.lastSync ? 'Last: '+LOCAL.lastSync : 'Folder connected';
+  } else if(ts){
+    const ago = Math.round((Date.now()-new Date(ts))/86400000);
+    dot.className   = ago > 7 ? 'bk-status-dot warn' : 'bk-status-dot ok';
+    title.textContent = ago > 7 ? '⚠️ Backup getting old' : '✅ Backed up';
+    sub.textContent = 'Last: '+new Date(ts).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  } else {
+    dot.className   = 'bk-status-dot';
+    title.textContent = 'No backup yet';
+    sub.textContent = "Save your data so you don't lose it";
+  }
+  const lbl = document.getElementById('bk-last-saved');
+  if(lbl) lbl.textContent = ts ? 'Last file saved: '+new Date(ts).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
 }
+
+// ── Quick save from banner button (uses detected platform) ──
+function bkQuickSave(){
+  const tab = _backupTab || (isIOS()?'ios':isMobileDevice()?'android':'windows');
+  mobileExportBackup(tab);
+}
+
+// ── Save button in platform section ──
+function bkSavePlatform(){
+  const tab = _backupTab || (isIOS()?'ios':isMobileDevice()?'android':'windows');
+  mobileExportBackup(tab);
+}
+
+// ── renderBackupPanel alias ──
+function updateBackupLastSave(){ renderBkStatusBanner(); }
 
 function updateWinFolderUI(){
   const connected    = document.getElementById('win-folder-connected');
@@ -12756,14 +12870,13 @@ function updateWinFolderUI(){
   const on           = !!LOCAL.folderName;
   if(connected)    connected.style.display    = on ? 'block' : 'none';
   if(disconnected) disconnected.style.display = on ? 'none'  : 'block';
-  if(lblEl)        lblEl.textContent          = on ? '📁 ' + LOCAL.folderName : 'No folder selected';
-  if(nameEl)       nameEl.textContent         = '📁 ' + (LOCAL.folderName || '');
-  if(syncEl)       syncEl.textContent         = LOCAL.lastSync ? '✅ Last backup: '+LOCAL.lastSync : 'No backups yet';
+  if(lblEl)        lblEl.textContent          = on ? '📁 '+LOCAL.folderName : 'No folder selected';
+  if(nameEl)       nameEl.textContent         = '📁 '+(LOCAL.folderName||'');
+  if(syncEl)       syncEl.textContent         = LOCAL.lastSync ? '✅ Last auto-save: '+LOCAL.lastSync : 'No auto-saves yet';
   if(apiWarn)      apiWarn.style.display      = (!on && !('showDirectoryPicker' in window)) ? 'block' : 'none';
-  if(logWrap && LOCAL.log.length){
-    logWrap.style.display = 'block';
-    if(logEl) logEl.innerHTML = LOCAL.log.map(e=>`<div class="drive-sync-entry">${e.time} — ${e.msg}</div>`).join('');
-  }
+  if(logWrap) logWrap.style.display = LOCAL.log && LOCAL.log.length ? 'block' : 'none';
+  if(logEl && LOCAL.log) logEl.innerHTML = LOCAL.log.map(e=>`<div class="drive-sync-entry">${e.time} — ${e.msg}</div>`).join('');
+  renderBkStatusBanner();
 }
 
 function localClearFolder(){
@@ -12780,50 +12893,47 @@ function localClearFolder(){
 }
 
 async function mobileExportBackup(platform){
+  // Detect platform if not passed
+  if(!platform) platform = _backupTab || (isIOS()?'ios':isMobileDevice()?'android':'windows');
   try{
     const d    = {exported: new Date().toISOString(), version:'selvam_v1', ...S};
     const json = JSON.stringify(d, null, 2);
     const blob = new Blob([json], {type:'application/json'});
-    const fileName = 'selvam-backup-' + new Date().toISOString().slice(0,10) + '.json';
+    const fileName = 'selvam-backup-'+new Date().toISOString().slice(0,10)+'.json';
 
-    // iOS Safari: use Web Share API → triggers native "Save to Files" sheet directly
+    // iOS: use Web Share API → triggers native "Save to Files" sheet
     if(platform === 'ios' && navigator.share && navigator.canShare){
-      try {
+      try{
         const file = new File([blob], fileName, {type:'application/json'});
-        if(navigator.canShare({ files:[file] })){
-          await navigator.share({
-            files: [file],
-            title: 'Selvam Backup',
-          });
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file], title:'Selvam Backup'});
           localStorage.setItem('selvam_mobile_last_backup', new Date().toISOString());
-          updateBackupLastSave();
-          showToast('✅ Backup saved!', 'success');
+          renderBkStatusBanner();
+          showToast('✅ Backup saved!','success');
           return;
         }
       } catch(shareErr){
-        // User cancelled share sheet — don't show error
         if(shareErr.name === 'AbortError') return;
-        // Fall through to link download as fallback
       }
     }
 
-    // Android / Desktop / iOS fallback: standard download link
+    // All others: standard download
     const url = URL.createObjectURL(blob);
     const a   = document.createElement('a');
-    a.href     = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
+    a.href = url; a.download = fileName;
+    document.body.appendChild(a); a.click();
     document.body.removeChild(a);
-    setTimeout(()=> URL.revokeObjectURL(url), 1000);
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
     localStorage.setItem('selvam_mobile_last_backup', new Date().toISOString());
-    updateBackupLastSave();
-    const msg = (platform==='ios')
+    renderBkStatusBanner();
+    const msg = platform==='ios'
       ? '📁 Tap "Save to Files" in the share sheet'
-      : '✅ Saved to Downloads — move to Google Drive for safety';
-    showToast(msg, 'success');
+      : platform==='android'
+      ? '✅ Saved to Downloads — upload to Google Drive for safety'
+      : '✅ Saved! Move to OneDrive or Dropbox for cloud sync';
+    showToast(msg,'success');
   } catch(e){
-    showToast('Export failed: ' + e.message, 'error');
+    showToast('Export failed: '+e.message,'error');
   }
 }
 
@@ -13617,9 +13727,12 @@ applyDashPrefs();
 renderBottomNav();
 setTimeout(renderBottomNav, 100); // Safari sometimes needs a tick
 
+
 applyDashPrefs();
 applyNavStyle();
 setTimeout(updateNotifBadge, 500);
+
+
 </script>
 
 <!-- ══════════════════
@@ -13669,4 +13782,104 @@ setTimeout(updateNotifBadge, 500);
 
 
 <input type="file" id="selvam-file-import" accept=".json" style="display:none;position:absolute;top:-9999px" onchange="importJSON(this)">
+
+<!-- ══════════════════════════════════════
+     QR SYNC MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="modal-qr-sync" style="z-index:9999">
+  <div class="modal" style="max-width:400px;padding:0;border-radius:20px;overflow:hidden">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#16a34a,#15803d);padding:18px 20px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:16px;color:#fff">📱 QR Code Sync</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px">No internet · No server · Instant</div>
+      </div>
+      <button onclick="closeModal('modal-qr-sync')" style="border:none;background:rgba(255,255,255,0.2);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+
+    <!-- Tab selector -->
+    <div style="display:flex;border-bottom:1px solid var(--border)">
+      <button class="qr-mode-tab active" id="qrtab-send" onclick="switchQRTab('send')" style="flex:1;padding:12px;border:none;background:transparent;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;color:var(--green);border-bottom:2px solid var(--green)">
+        📤 Send (this device)
+      </button>
+      <button class="qr-mode-tab" id="qrtab-receive" onclick="switchQRTab('receive')" style="flex:1;padding:12px;border:none;background:transparent;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;color:var(--muted);border-bottom:2px solid transparent">
+        📥 Receive (scan QR)
+      </button>
+    </div>
+
+    <!-- SEND TAB -->
+    <div id="qr-send-tab" style="padding:20px">
+      <p style="font-size:12px;color:var(--muted);margin:0 0 16px;text-align:center;line-height:1.6">
+        Show this QR code to your other device.<br>That device scans it to import your data.
+      </p>
+
+      <!-- QR size selector -->
+      <div style="display:flex;gap:6px;margin-bottom:14px;justify-content:center">
+        <button class="qr-chunk-btn active" id="qrchunk-full" onclick="generateQR('full')">Full Data</button>
+        <button class="qr-chunk-btn" id="qrchunk-quick" onclick="generateQR('quick')">Quick (recent 3mo)</button>
+      </div>
+
+      <!-- QR canvas container -->
+      <div id="qr-canvas-wrap" style="display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div id="qr-generating" style="padding:32px;text-align:center;color:var(--muted)">
+          <div style="font-size:32px;margin-bottom:8px">⏳</div>
+          <div style="font-size:13px">Generating QR code…</div>
+        </div>
+        <canvas id="qr-canvas" style="display:none;border-radius:12px;border:4px solid #fff;box-shadow:0 4px 20px rgba(0,0,0,0.15)"></canvas>
+        <div id="qr-chunk-info" style="display:none;font-size:11px;color:var(--muted);text-align:center"></div>
+        <div id="qr-multi-nav" style="display:none;align-items:center;gap:10px">
+          <button onclick="qrPrevChunk()" style="padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px">‹ Prev</button>
+          <span id="qr-chunk-counter" style="font-size:12px;font-weight:700;color:var(--text)">1 / 3</span>
+          <button onclick="qrNextChunk()" style="padding:6px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px">Next ›</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);text-align:center;padding:0 8px" id="qr-tip"></div>
+      </div>
+    </div>
+
+    <!-- RECEIVE TAB -->
+    <div id="qr-receive-tab" style="display:none;padding:20px">
+      <p style="font-size:12px;color:var(--muted);margin:0 0 16px;text-align:center;line-height:1.6">
+        Point your camera at the QR code on the other device.<br>
+        <strong style="color:var(--text)">Your current data will be replaced.</strong>
+      </p>
+
+      <!-- Camera view -->
+      <div id="qr-scanner-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;margin-bottom:14px">
+        <video id="qr-video" style="width:100%;display:block;border-radius:16px" playsinline autoplay muted></video>
+        <canvas id="qr-scan-canvas" style="display:none"></canvas>
+        <!-- Scanning overlay -->
+        <div id="qr-scan-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+          <div style="width:200px;height:200px;border:3px solid var(--green);border-radius:16px;box-shadow:0 0 0 9999px rgba(0,0,0,0.4)">
+            <div class="qr-scan-line"></div>
+          </div>
+        </div>
+        <div id="qr-scan-status" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.8)">Align QR code in frame</div>
+      </div>
+
+      <!-- Progress for multi-chunk -->
+      <div id="qr-receive-progress" style="display:none;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px" id="qr-recv-progress-lbl">Scanning chunk 1…</div>
+        <div style="background:var(--bg2);border-radius:6px;height:6px;overflow:hidden">
+          <div id="qr-recv-progress-bar" style="background:var(--green);height:100%;width:0%;transition:width 0.3s;border-radius:6px"></div>
+        </div>
+        <div id="qr-recv-chunks-status" style="font-size:11px;color:var(--muted);margin-top:4px"></div>
+      </div>
+
+      <button id="qr-start-scan-btn" class="btn btn-green" style="width:100%;padding:13px;font-size:14px;font-weight:700;border-radius:12px" onclick="startQRScan()">
+        📷 Start Camera
+      </button>
+      <button id="qr-stop-scan-btn" class="btn btn-outline" style="width:100%;padding:12px;font-size:14px;display:none;margin-top:8px;border-radius:12px" onclick="stopQRScan()">
+        ⏹ Stop Camera
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+.qr-scan-line{width:100%;height:2px;background:var(--green);position:absolute;top:0;animation:qrscan 2s ease-in-out infinite;box-shadow:0 0 8px var(--green)}
+@keyframes qrscan{0%{top:0}50%{top:calc(100% - 2px)}100%{top:0}}
+.qr-chunk-btn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.qr-chunk-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+.qr-mode-tab{transition:all 0.15s}
+</style>
 </body></html>
