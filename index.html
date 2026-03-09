@@ -938,9 +938,9 @@ tr:hover td{background:var(--surface2)}
 .search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
 
 /* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:500;padding:20px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:500;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:18px;width:100%;max-width:540px;padding:28px;max-height:92vh;overflow-y:auto;animation:fadeUp 0.25s ease;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:18px;width:100%;max-width:540px;padding:28px;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:fadeUp 0.25s ease;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
 .modal-title{font-family:'Noto Serif Tamil',serif;font-size:22px;font-weight:700;margin-bottom:20px;color:var(--text)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-grp{margin-bottom:14px}
@@ -1003,9 +1003,9 @@ tr:hover td{background:var(--surface2)}
 .settings-info-row strong{color:var(--text);font-weight:600}
 
 /* ASSET SUB-TAB BAR */
-.asset-subtab-bar{display:flex;gap:4px;margin-bottom:20px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0}
+.asset-subtab-bar{display:flex;gap:2px;margin-bottom:20px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0}
 .asset-subtab-bar::-webkit-scrollbar{display:none}
-.asset-subtab{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:inherit;white-space:nowrap;transition:all 0.18s;flex-shrink:0;line-height:1}
+.asset-subtab{display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:inherit;white-space:nowrap;transition:all 0.18s;flex:1;min-width:0;line-height:1}
 .asset-subtab .tab-emoji{font-size:17px;line-height:1;display:inline-block}
 .asset-subtab .tab-label{line-height:1}
 .asset-subtab:hover{color:var(--text2);background:var(--surface)}
@@ -1471,7 +1471,7 @@ tr:hover td{background:var(--surface2)}
   table{min-width:480px}
   /* Bottom-sheet modals */
   .overlay{align-items:flex-end;padding:0}
-  .modal{border-radius:20px 20px 0 0;max-height:90vh;width:100%;padding:20px 16px 32px}
+  .modal{border-radius:20px 20px 0 0;max-height:90vh;width:100%;padding:20px 16px 32px;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .modal-title{font-size:18px}
   /* Misc */
   .snap-grid{grid-template-columns:repeat(2,1fr)}
@@ -1482,7 +1482,7 @@ tr:hover td{background:var(--surface2)}
   .month-nav{justify-content:space-between}
   .month-label{font-size:16px}
   .asset-overview-grid{grid-template-columns:1fr 1fr}
-  .asset-subtab{padding:7px 11px;font-size:12px}
+  .asset-subtab{padding:7px 8px;font-size:11.5px}
   .asset-detail-panel{width:100vw;height:100dvh;border-left:none;border-radius:0}
   .nav-item{padding:11px 14px;font-size:14px}
   .help-features-grid{grid-template-columns:repeat(2,1fr)}
@@ -2886,10 +2886,10 @@ body[data-view="mobile"]
   <!-- SUB-TAB BAR -->
   <div class="asset-subtab-bar" id="exp-subtab-bar" style="margin-bottom:0">
     <button class="asset-subtab active" id="exptab-fixed" onclick="switchExpTab(&#39;fixed&#39;)">
-      <span class="tab-emoji">💸</span><span class="tab-label">Fixed</span>
+      <span class="tab-emoji">💸</span><span class="tab-label">Bills</span>
     </button>
     <button class="asset-subtab" id="exptab-subs" onclick="switchExpTab(&#39;subs&#39;)">
-      <span class="tab-emoji">📲</span><span class="tab-label">Subscriptions</span>
+      <span class="tab-emoji">📲</span><span class="tab-label">Subs</span>
     </button>
     <button class="asset-subtab" id="exptab-cards" onclick="switchExpTab(&#39;cards&#39;)">
       <span class="tab-emoji">💳</span><span class="tab-label">Cards</span>
@@ -5131,14 +5131,14 @@ body[data-view="mobile"]
 
 <!-- ADD FIXED EXPENSE MODAL -->
 <div class="overlay" id="modal-fexp">
-<div class="modal" style="max-width:460px;padding:0;border-radius:18px;overflow:hidden">
-  <div style="padding:18px 20px 14px;border-bottom:1px solid var(--border)">
+<div class="modal" style="max-width:460px;padding:0;border-radius:18px;display:flex;flex-direction:column;overflow:hidden">
+  <div style="padding:18px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0">
     <h2 class="modal-title" id="fe-modal-title" style="margin:0 0 12px">Add Recurring Bill</h2>
     <!-- Quick templates -->
     <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Quick Add</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px" id="fe-templates"></div>
   </div>
-  <div style="padding:16px 20px">
+  <div style="padding:16px 20px 32px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0">
     <div class="form-row">
       <div class="form-grp" style="flex:2">
         <label class="form-lbl">Bill / Description</label>
@@ -5573,7 +5573,7 @@ body[data-view="mobile"]
 
 <!-- ADD CREDIT CARD MODAL -->
 <div class="overlay" id="modal-creditcard">
-<div class="modal" style="max-width:480px;padding:0;border-radius:18px;overflow:hidden">
+<div class="modal" style="max-width:480px;padding:0;border-radius:18px;overflow-y:auto">
 
   <!-- Header -->
   <div style="padding:18px 20px 14px;border-bottom:1px solid var(--border)">
@@ -5638,11 +5638,11 @@ body[data-view="mobile"]
 
 <!-- ADD / EDIT LOAN MODAL -->
 <div class="overlay" id="modal-loan">
-<div class="modal" style="max-width:480px;padding:0;border-radius:18px;overflow:hidden">
-  <div style="padding:18px 20px 14px;border-bottom:1px solid var(--border)">
+<div class="modal" style="max-width:480px;padding:0;border-radius:18px;display:flex;flex-direction:column;overflow:hidden">
+  <div style="padding:18px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0">
     <h2 class="modal-title" id="loan-modal-title" style="margin:0">Add Loan</h2>
   </div>
-  <div style="padding:16px 20px">
+  <div style="padding:16px 20px 32px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0">
     <!-- Loan type quick pick -->
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px" id="loan-type-chips">
       <div class="cc-chip active" onclick="loanPickType(this,'Home Loan','🏠')" data-type="Home Loan">🏠 Home</div>
@@ -5803,7 +5803,7 @@ body[data-view="mobile"]
 
 <!-- GLOBAL SEARCH MODAL -->
 <div class="overlay" id="modal-global-search" style="align-items:flex-start;padding-top:60px">
-<div class="modal" style="max-width:560px;padding:0;overflow:hidden;border-radius:16px">
+<div class="modal" style="max-width:560px;padding:0;overflow-y:auto;border-radius:16px">
   <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)">
     <span style="font-size:18px">🔍</span>
     <input class="form-inp" id="global-search-inp" placeholder="Search expenses, assets, goals, subscriptions…" style="border:none;background:transparent;flex:1;font-size:15px;padding:0;outline:none" oninput="runGlobalSearch()" autocomplete="off">
@@ -7654,6 +7654,9 @@ function switchExpTab(tab){
   currentExpTab = tab;
   localStorage.setItem('selvam_exp_tab', tab);
   _applyExpTabUI();
+  // Scroll active tab into view on mobile
+  const activeBtn = document.getElementById('exptab-'+tab);
+  if(activeBtn) activeBtn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   if(tab==='fixed'){ _renderFixedTab(); }
   else if(tab==='subs'){ renderSubscriptions(); }
   else if(tab==='cards'){ renderCreditCards(); }
@@ -14836,7 +14839,7 @@ async function clearAppCache(){
      QR SYNC MODAL
 ══════════════════════════════════════ -->
 <div class="overlay" id="modal-qr-sync" style="z-index:9999">
-  <div class="modal" style="max-width:400px;padding:0;border-radius:20px;overflow:hidden">
+  <div class="modal" style="max-width:400px;padding:0;border-radius:20px;overflow-y:auto">
     <!-- Header -->
     <div style="background:linear-gradient(135deg,#16a34a,#15803d);padding:18px 20px;display:flex;align-items:center;justify-content:space-between">
       <div>
