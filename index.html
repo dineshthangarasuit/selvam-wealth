@@ -5680,20 +5680,32 @@ body[data-view="mobile"]
         <input class="form-inp" id="ln-rate" type="number" placeholder="e.g. 8.5" step="0.1" oninput="loanCalcPreview()">
       </div>
       <div class="form-grp">
-        <label class="form-lbl">Tenure (months left)</label>
+        <label class="form-lbl">Tenure (total months)</label>
         <input class="form-inp" id="ln-tenure" type="number" placeholder="e.g. 240" oninput="loanCalcPreview()">
+        <div style="font-size:10.5px;color:var(--muted);margin-top:3px" id="ln-tenure-note">Always in months · e.g. 5 yrs = 60</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-grp" style="flex:1">
+        <label class="form-lbl">Repayment Frequency</label>
+        <select class="form-sel" id="ln-freq" onchange="loanFreqChange()">
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly (every 3 months)</option>
+          <option value="halfyearly">Half-Yearly (every 6 months)</option>
+          <option value="yearly">Yearly</option>
+        </select>
       </div>
     </div>
     <div class="form-row">
       <div class="form-grp">
-        <label class="form-lbl">EMI Amount</label>
+        <label class="form-lbl" id="ln-emi-label">EMI Amount</label>
         <input class="form-inp" id="ln-emi" type="number" placeholder="Auto-calculated">
         <div style="font-size:10.5px;color:var(--muted);margin-top:3px" id="ln-emi-note">Fill rate + tenure to auto-calculate</div>
       </div>
       <div class="form-grp">
-        <label class="form-lbl">EMI Day</label>
+        <label class="form-lbl" id="ln-emi-day-label">Payment Day</label>
         <input class="form-inp" id="ln-emi-day" type="number" placeholder="e.g. 5" min="1" max="31">
-        <div style="font-size:10.5px;color:var(--muted);margin-top:3px">Day of month deducted</div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:3px" id="ln-emi-day-note">Day of month deducted</div>
       </div>
     </div>
     <div class="form-row">
@@ -5703,14 +5715,14 @@ body[data-view="mobile"]
       </div>
       <div class="form-grp">
         <label class="form-lbl">Currency</label>
-        <select class="form-sel" id="ln-cur"><option value="INR">INR</option><option value="GBP">GBP</option><option value="USD">USD</option><option value="EUR">EUR</option></select>
+        <select class="form-sel" id="ln-cur"></select>
       </div>
     </div>
     <!-- Live preview -->
     <div id="ln-preview" style="display:none;background:var(--surface2);border-radius:12px;padding:12px 14px;margin-bottom:4px">
       <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Loan Summary</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-        <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Monthly EMI</div><div style="font-weight:800;font-size:14px;color:var(--red)" id="ln-prev-emi">—</div></div>
+        <div style="text-align:center"><div style="font-size:10px;color:var(--muted)" id="ln-prev-emi-label">Payment Amount</div><div style="font-weight:800;font-size:14px;color:var(--red)" id="ln-prev-emi">—</div></div>
         <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Total Interest</div><div style="font-weight:800;font-size:14px;color:var(--amber)" id="ln-prev-interest">—</div></div>
         <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Paid Off</div><div style="font-weight:800;font-size:14px;color:var(--green)" id="ln-prev-progress">—</div></div>
       </div>
@@ -6017,7 +6029,7 @@ function renderCurBtns(extraId){
     `<button class="cur-btn ${S.displayCur===c?'active':''}" onclick="setDisplayCur('${c}')">${FFLAGS[c]||''} ${c}</button>`
   ).join('');
   const opts = S.currencies.map(c=>`<option value="${c}" ${c===S.displayCur?'selected':''}>${c}</option>`).join('');
-  ['a-cur','i-cur','fe-cur','d-cur','g-cur','sub-cur','cc-cur','rent-cur','p-cur'].forEach(id=>{
+  ['a-cur','i-cur','fe-cur','d-cur','g-cur','sub-cur','cc-cur','rent-cur','p-cur','ln-cur'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.innerHTML=opts;
   });
@@ -11927,7 +11939,7 @@ function renderLoans(){
       </div>
       <div class="income-exp-hero" style="margin:0">
         <div class="ie-item"><div class="ie-label">Outstanding</div><div class="ie-value" style="color:var(--red)">${fmt(row.outstanding,row.cur)}</div></div>
-        <div class="ie-item"><div class="ie-label">Monthly EMI</div><div class="ie-value" style="color:var(--amber)">${fmt(row.emi,row.cur)}</div></div>
+        <div class="ie-item"><div class="ie-label">${{monthly:"EMI",quarterly:"Quarterly",halfyearly:"Half-Yearly",yearly:"Yearly"}[row.freq]||"EMI"}</div><div class="ie-value" style="color:var(--amber)">${fmt(row.emi,row.cur)}</div></div>
         <div class="ie-item"><div class="ie-label">Principal</div><div class="ie-value">${fmt(row.principal,row.cur)}</div></div>
       </div>
       <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px">
@@ -11973,7 +11985,13 @@ function loanCard(l){
   const paidPctStr = paidPct.toFixed(1);
   const barColor = paidPct>=75?'var(--green)':paidPct>=40?'var(--amber)':'var(--red)';
 
-  // Months remaining
+  // Repayment frequency
+  const freq = l.repayFreq||'monthly';
+  const freqMonths = {monthly:1,quarterly:3,halfyearly:6,yearly:12}[freq]||1;
+  const freqShort = {monthly:'Monthly EMI',quarterly:'Quarterly',halfyearly:'Half-Yearly',yearly:'Yearly'}[freq]||'Payment';
+  const freqBadge = freq!=='monthly' ? {quarterly:'🔄 Quarterly',halfyearly:'🔄 Every 6 Months',yearly:'🔄 Yearly'}[freq] : '';
+
+  // Months remaining (tenure is always stored in months)
   let monthsLeft = l.tenure||0;
   let endDateStr = '';
   if(l.start && l.tenure){
@@ -11984,20 +12002,22 @@ function loanCard(l){
     monthsLeft = Math.max(0, Math.round((end-now)/2629800000));
   }
 
-  // Next EMI due
+  // Next payment due — advances by freqMonths each cycle
   let nextEmiStr = '';
   if(l.emiDay){
     const today = new Date();
     let next = new Date(today.getFullYear(), today.getMonth(), parseInt(l.emiDay));
-    if(next <= today) next = new Date(today.getFullYear(), today.getMonth()+1, parseInt(l.emiDay));
+    // For non-monthly: advance by freqMonths until next future date
+    while(next <= today) next = new Date(next.getFullYear(), next.getMonth()+freqMonths, parseInt(l.emiDay));
     const daysTo = Math.round((next-today)/86400000);
     nextEmiStr = daysTo===0?'Today':daysTo===1?'Tomorrow':`In ${daysTo} days`;
   }
 
-  // Total interest remaining (approx)
+  // Total interest remaining (approx) — payments = outstanding_months / freqMonths
   let totalInterestStr = '';
-  if(l.emi && outstanding && l.rate){
-    const totalPay = (l.emi||0)*monthsLeft;
+  if(l.emi && outstanding && monthsLeft){
+    const periods = Math.ceil(monthsLeft/freqMonths);
+    const totalPay = (l.emi||0)*periods;
     const totalInterest = totalPay - outstanding;
     if(totalInterest>0) totalInterestStr = fmt(totalInterest,l.currency);
   }
@@ -12031,15 +12051,11 @@ function loanCard(l){
     <!-- Stats row -->
     <div class="cc-stat-row">
       <div class="cc-stat"><div class="cc-stat-label">Outstanding</div><div class="cc-stat-val" style="color:var(--red)">${fmt(outstanding,l.currency)}</div></div>
-      <div class="cc-stat"><div class="cc-stat-label">EMI</div><div class="cc-stat-val" style="color:var(--amber)">${l.emi?fmt(l.emi,l.currency):'—'}</div></div>
-      <div class="cc-stat"><div class="cc-stat-label">${nextEmiStr?'Next EMI':'Ends'}</div><div class="cc-stat-val" style="color:${nextEmiStr&&nextEmiStr.includes('Today')?'var(--red)':'var(--text)'}">${nextEmiStr||endDateStr||'—'}</div></div>
+      <div class="cc-stat"><div class="cc-stat-label">${freqShort}</div><div class="cc-stat-val" style="color:var(--amber)">${l.emi?fmt(l.emi,l.currency):'—'}</div></div>
+      <div class="cc-stat"><div class="cc-stat-label">${nextEmiStr?'Next Due':'Ends'}</div><div class="cc-stat-val" style="color:${nextEmiStr&&nextEmiStr.includes('Today')?'var(--red)':'var(--text)'}">${nextEmiStr||endDateStr||'—'}</div></div>
     </div>
-    ${totalInterestStr||monthsLeft?`<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-      ${monthsLeft>0?`<span style="background:var(--surface2);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--muted)">⏳ ${monthsLeft} months left</span>`:''}
-      ${totalInterestStr?`<span style="background:#fef3c7;border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:#78350f">💸 ${totalInterestStr} interest remaining</span>`:''}
-      ${endDateStr?`<span style="background:var(--surface2);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--muted)">🏁 Ends ${endDateStr}</span>`:''}
-    </div>`:''}
-    ${lastPay?`<div style="font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">Last payment: ${fmt(lastPay.amount,l.currency)} on ${fmtDate(lastPay.date)}${lastPay.notes?' · '+lastPay.notes:''}</div>`:''}
+    ${(totalInterestStr||monthsLeft||freqBadge)?('<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+(freqBadge?'<span style="background:#ede9fe;border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:#5b21b6">'+freqBadge+'</span>':'')+(monthsLeft>0?'<span style="background:var(--surface2);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--muted)">⏳ '+monthsLeft+' months left</span>':'')+(totalInterestStr?'<span style="background:#fef3c7;border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:#78350f">💸 '+totalInterestStr+' interest remaining</span>':'')+(endDateStr?'<span style="background:var(--surface2);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--muted)">🏁 Ends '+endDateStr+'</span>':'')+'</div>'):''}
+    ${lastPay?('<div style="font-size:11px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">Last payment: '+fmt(lastPay.amount,l.currency)+' on '+fmtDate(lastPay.date)+(lastPay.notes?' · '+lastPay.notes:'')+'</div>'):''}
   </div>`;
 }
 
@@ -12053,32 +12069,63 @@ function loanPickType(chip, type, icon){
   if(nameEl && !nameEl.value) nameEl.placeholder = 'e.g. SBI '+type;
 }
 
+// Frequency helpers
+const LOAN_FREQ_MONTHS = {monthly:1, quarterly:3, halfyearly:6, yearly:12};
+const LOAN_FREQ_LABELS = {monthly:'EMI Amount', quarterly:'Quarterly Payment', halfyearly:'Half-Yearly Payment', yearly:'Yearly Payment'};
+const LOAN_FREQ_DAY_LABELS = {monthly:'Payment Day (of month)', quarterly:'Payment Day (of month)', halfyearly:'Payment Day (of month)', yearly:'Payment Day (of year start)'};
+
+function loanFreqChange(){
+  const freq = document.getElementById('ln-freq').value;
+  const lbl = document.getElementById('ln-emi-label');
+  const dayLbl = document.getElementById('ln-emi-day-label');
+  const dayNote = document.getElementById('ln-emi-day-note');
+  const tenureNote = document.getElementById('ln-tenure-note');
+  if(lbl) lbl.textContent = LOAN_FREQ_LABELS[freq]||'Payment Amount';
+  if(dayLbl) dayLbl.textContent = LOAN_FREQ_DAY_LABELS[freq]||'Payment Day';
+  const dayNotes = {monthly:'Day of month deducted', quarterly:'Day of month (Jan/Apr/Jul/Oct)', halfyearly:'Day of month (Jan & Jul)', yearly:'Day of month (January)'};
+  if(dayNote) dayNote.textContent = dayNotes[freq]||'';
+  const tenureHints = {monthly:'Always in months · e.g. 5 yrs = 60', quarterly:'Always in months · e.g. 5 yrs = 60 → 20 payments', halfyearly:'Always in months · e.g. 5 yrs = 60 → 10 payments', yearly:'Always in months · e.g. 5 yrs = 60 → 5 payments'};
+  if(tenureNote) tenureNote.textContent = tenureHints[freq]||'';
+  // Clear auto-set EMI so it recalculates for new frequency
+  const emiEl = document.getElementById('ln-emi');
+  if(emiEl && emiEl.dataset.autoSet) { emiEl.value=''; delete emiEl.dataset.autoSet; }
+  loanCalcPreview();
+}
+
 function loanCalcPreview(){
   const P = parseFloat(document.getElementById('ln-outstanding').value)||0;
   const r = parseFloat(document.getElementById('ln-rate').value)||0;
-  const n = parseFloat(document.getElementById('ln-tenure').value)||0;
+  const n = parseFloat(document.getElementById('ln-tenure').value)||0; // always in months
+  const freq = (document.getElementById('ln-freq')||{}).value||'monthly';
+  const freqMonths = LOAN_FREQ_MONTHS[freq]||1;
   const preview = document.getElementById('ln-preview');
   const emiEl = document.getElementById('ln-emi');
   const noteEl = document.getElementById('ln-emi-note');
-  const cur = document.getElementById('ln-cur').value||S.displayCur;
+  const cur = (document.getElementById('ln-cur')||{}).value||S.displayCur;
+  const freqLabel = LOAN_FREQ_LABELS[freq]||'Payment';
 
   if(P>0 && r>0 && n>0){
-    const monthlyR = r/12/100;
-    const emi = P*monthlyR*Math.pow(1+monthlyR,n)/(Math.pow(1+monthlyR,n)-1);
-    const totalPay = emi*n;
+    // Convert to per-period rate
+    const periodicR = r/100/12*freqMonths; // e.g. quarterly = annual/4
+    const periods = n/freqMonths;          // number of payment periods
+    const payment = periodicR>0
+      ? P*periodicR*Math.pow(1+periodicR,periods)/(Math.pow(1+periodicR,periods)-1)
+      : P/periods;
+    const totalPay = payment*periods;
     const totalInterest = totalPay-P;
     const principal = parseFloat(document.getElementById('ln-principal').value)||P;
     const paidPct = principal>0?Math.min(100,((principal-P)/principal*100)):0;
 
     if(!emiEl.value || emiEl.dataset.autoSet) {
-      emiEl.value = Math.round(emi);
+      emiEl.value = Math.round(payment);
       emiEl.dataset.autoSet = '1';
     }
-    if(noteEl) noteEl.textContent = 'Auto-calculated from rate & tenure';
+    if(noteEl) noteEl.textContent = `Auto-calculated · ${periods.toFixed(0)} payments`;
 
     if(preview){
       preview.style.display='block';
-      document.getElementById('ln-prev-emi').textContent = fmt(emi,cur);
+      document.getElementById('ln-prev-emi').textContent = fmt(payment,cur);
+      const prevLbl=document.getElementById('ln-prev-emi-label'); if(prevLbl) prevLbl.textContent=freqLabel+' Amount';
       document.getElementById('ln-prev-interest').textContent = fmt(totalInterest,cur);
       document.getElementById('ln-prev-progress').textContent = paidPct.toFixed(1)+'%';
       document.getElementById('ln-prev-bar').style.width = paidPct+'%';
@@ -12096,6 +12143,8 @@ function openAddLoan(){
     const el=document.getElementById(id); if(el){el.value=''; delete el.dataset.autoSet;}
   });
   document.getElementById('ln-type').value='Home Loan';
+  document.getElementById('ln-freq').value='monthly';
+  loanFreqChange();
   document.getElementById('ln-preview').style.display='none';
   document.getElementById('ln-emi-note').textContent='Fill rate + tenure to auto-calculate';
   // reset chips
@@ -12121,7 +12170,7 @@ function openEditLoan(id){
   // set chips
   document.querySelectorAll('#loan-type-chips .cc-chip').forEach(el=>el.classList.toggle('selected',el.dataset.type===l.type));
   renderCurBtns('ln-cur');
-  setTimeout(()=>{ const el=document.getElementById('ln-cur'); if(el) el.value=l.currency||S.displayCur; },30);
+  setTimeout(()=>{ const el=document.getElementById('ln-cur'); if(el) el.value=l.currency||S.displayCur; const fq=document.getElementById('ln-freq'); if(fq) fq.value=l.repayFreq||'monthly'; loanFreqChange(); },30);
   loanCalcPreview();
   document.getElementById('modal-loan').classList.add('open');
 }
@@ -12139,6 +12188,7 @@ function saveLoan(){
     outstanding,
     rate: parseFloat(document.getElementById('ln-rate').value)||0,
     tenure: parseInt(document.getElementById('ln-tenure').value)||0,
+    repayFreq: document.getElementById('ln-freq').value||'monthly',
     emi: parseFloat(document.getElementById('ln-emi').value)||0,
     emiDay: parseInt(document.getElementById('ln-emi-day').value)||0,
     start: document.getElementById('ln-start').value||'',
@@ -14397,7 +14447,17 @@ function getAllPaymentDates(monthStr){
 
   // Loan EMIs
   (S.loans||[]).filter(l=>l.emiDay&&l.outstanding>0).forEach(l=>{
-    addToMap(parseInt(l.emiDay),{label:l.name+' EMI',amount:l.emi||0,currency:l.currency||S.displayCur,category:'loan',source:'loan',id:l.id});
+    const lFreqMonths = {monthly:1,quarterly:3,halfyearly:6,yearly:12}[l.repayFreq||'monthly']||1;
+    const lFreqShort = {monthly:'EMI',quarterly:'Quarterly',halfyearly:'Half-Yearly',yearly:'Yearly'}[l.repayFreq||'monthly'];
+    // Check if this loan pays in the current month
+    let shouldShow = lFreqMonths===1; // always show monthly
+    if(!shouldShow && l.start){
+      const [sy,sm] = l.start.split('-').map(Number);
+      const [my,mm] = monthStr.split('-').map(Number);
+      const diffMonths = (my-sy)*12+(mm-sm);
+      shouldShow = diffMonths>=0 && diffMonths%lFreqMonths===0;
+    }
+    if(shouldShow) addToMap(parseInt(l.emiDay),{label:l.name+' '+lFreqShort,amount:l.emi||0,currency:l.currency||S.displayCur,category:'loan',source:'loan',id:l.id});
   });
 
   // Rent
