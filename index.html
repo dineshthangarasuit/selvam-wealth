@@ -14,19 +14,42 @@
 <script>
 // ── PWA: register service worker via blob so it works from file:// too ──
 (function(){
+  // Cache version — bump this on every deploy to force iPhone to reload
+  const CACHE_VER = 'selvam-20260309';
   const SW_CODE = `
-self.addEventListener('install', e => self.skipWaiting());
-self.addEventListener('activate', e => clients.claim());
+const CACHE = '20260309';
+self.addEventListener('install', e => {
+  e.waitUntil(self.skipWaiting());
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    ).then(() => clients.claim())
+  );
+});
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.open('selvam-v1').then(c =>
-    c.match(e.request).then(r => r || fetch(e.request).catch(() => new Response('', {status: 408})))
+  // Network-first for the HTML file itself so updates always get through
+  if(e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+    return;
+  }
+  e.respondWith(caches.open(CACHE).then(c =>
+    c.match(e.request).then(r => r || fetch(e.request).then(resp => {
+      c.put(e.request, resp.clone()); return resp;
+    }).catch(() => new Response('', {status: 408})))
   ));
 });
 `;
   if('serviceWorker' in navigator){
-    const blob = new Blob([SW_CODE], {type:'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl, {scope:'./'}).catch(()=>{});
+    // Unregister old service workers first, then register new one
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      Promise.all(regs.map(r => r.unregister())).then(() => {
+        const blob = new Blob([SW_CODE], {type:'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl, {scope:'./'}).catch(()=>{});
+      });
+    });
   }
 
   // Capture install prompt for later use
@@ -3573,6 +3596,14 @@ body[data-view="mobile"]
           </div>
           <div class="backup-card-status-dot" id="settings-backup-dot" style="margin-right:4px"></div>
           <div class="st-chevron">&#8250;</div>
+        </div>
+        <div class="st-row" onclick="clearAppCache()">
+          <div class="st-row-icon" style="background:#7c3aed">&#128257;</div>
+          <div class="st-row-body">
+            <div class="st-row-label">Clear Cache &amp; Reload</div>
+            <div class="st-row-sub" id="str-cache-sub">Force reload latest version</div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:#7c3aed;white-space:nowrap">Refresh</div>
         </div>
       </div>
     </div>
@@ -14729,6 +14760,28 @@ applyNavStyle();
 setTimeout(updateNotifBadge, 500);
 
 
+
+// ── Clear app cache & force reload ──
+async function clearAppCache(){
+  const sub = document.getElementById('str-cache-sub');
+  try{
+    // Unregister all service workers
+    if('serviceWorker' in navigator){
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+    }
+    // Delete all caches
+    if('caches' in window){
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }
+    if(sub) sub.textContent='Cache cleared — reloading…';
+    showToast('Cache cleared ✅ Reloading…','success');
+    setTimeout(()=>window.location.reload(true), 1000);
+  } catch(e){
+    showToast('Could not clear cache: '+e.message,'error');
+  }
+}
 </script>
 
 <!-- ══════════════════
